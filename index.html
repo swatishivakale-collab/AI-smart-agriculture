@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Smart Agriculture Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <!-- HEADER -->
+    <header class="header">
+
+        <div>
+            <h1>Welcome, Farmer 👋</h1>
+            <p>Here's what's happening on your farm today.</p>
+        </div>
+
+        <div class="header-right">
+            <span id="currentDate"></span>
+            <span class="notification">🔔</span>
+        </div>
+
+    </header>
+
+
+    <!-- SUMMARY CARDS -->
+    <section class="summary-grid">
+
+        <div class="summary-card">
+            <span class="summary-icon">🌿</span>
+            <div>
+                <p>System</p>
+                <h3>Online</h3>
+            </div>
+        </div>
+
+        <div class="summary-card">
+            <span class="summary-icon">🤖</span>
+            <div>
+                <p>AI Model</p>
+                <h3>Ready</h3>
+            </div>
+        </div>
+
+        <div class="summary-card">
+            <span class="summary-icon">📷</span>
+            <div>
+                <p>Last Scan</p>
+                <h3 id="lastScan">--</h3>
+            </div>
+        </div>
+
+        <div class="summary-card">
+            <span class="summary-icon">⚠️</span>
+            <div>
+                <p>Plant Status</p>
+                <h3 id="plantStatus">Waiting</h3>
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- MAIN CONTENT -->
+    <section class="main-grid">
+
+        <!-- IMAGE PANEL -->
+        <div class="panel">
+
+            <div class="panel-title">
+                <h2>Latest Captured Image</h2>
+            </div>
+
+            <div class="image-container">
+
+                <div id="imagePlaceholder">
+                    🌱
+                    <p>No leaf image selected</p>
+                </div>
+
+                <img
+                    id="leafPreview"
+                    alt="Captured tomato leaf"
+                >
+
+            </div>
+
+            <label for="imageInput" class="upload-button">
+                Select Leaf Image
+            </label>
+
+            <input
+                type="file"
+                id="imageInput"
+                accept="image/jpeg,image/png"
+                hidden
+            >
+
+            <button id="analyzeButton" class="analyze-button">
+                Analyze Leaf
+            </button>
+
+            <p id="loadingMessage" class="loading"></p>
+
+        </div>
+
+
+        <!-- DETECTION RESULT PANEL -->
+        <div class="panel">
+
+            <div class="panel-title">
+                <h2>Detection Result</h2>
+            </div>
+
+            <div id="waitingResult" class="waiting-result">
+                <span>🔬</span>
+                <p>Select a leaf image and run analysis.</p>
+            </div>
+
+
+            <div id="resultContent" class="result-content hidden">
+
+                <div class="result-row">
+                    <span>Disease</span>
+                    <strong id="disease">--</strong>
+                </div>
+
+
+                <div class="result-row">
+                    <span>Health Score</span>
+
+                    <div class="health-section">
+                        <strong id="healthScore">--</strong>
+
+                        <div class="progress-background">
+                            <div
+                                id="healthBar"
+                                class="progress-bar">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="result-row">
+                    <span>Affected Area</span>
+                    <strong id="affectedArea">--</strong>
+                </div>
+
+
+                <div class="result-row">
+                    <span>AI Confidence</span>
+                    <strong id="confidence">--</strong>
+                </div>
+
+
+                <div class="result-row">
+                    <span>Severity</span>
+                    <strong
+                        id="severity"
+                        class="severity-badge">
+                        --
+                    </strong>
+                </div>
+
+
+                <div class="result-row">
+                    <span>Status</span>
+                    <strong id="status">--</strong>
+                </div>
+
+
+                <!-- ========================================= -->
+                <!-- FARMER ALERT -->
+                <!-- ========================================= -->
+
+                <div
+                    id="farmerAlert"
+                    class="farmer-alert hidden"
+                >
+
+                    <!-- ALERT HEADER -->
+                    <div class="farmer-alert-header">
+
+                        <h3 id="farmerAlertHeading">
+                            ⚠️ FARMER ALERT
+                        </h3>
+
+                        <div class="language-toggle">
+
+                            <button
+                                id="englishButton"
+                                class="language-button active"
+                                type="button"
+                            >
+                                English
+                            </button>
+
+                            <button
+                                id="hindiButton"
+                                class="language-button"
+                                type="button"
+                            >
+                                हिंदी
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- MAIN ALERT RESULT -->
+                    <div class="farmer-alert-summary">
+
+                        <h2 id="farmerAlertTitle">
+                            --
+                        </h2>
+
+                        <p>
+                            <strong id="affectedAreaLabel">
+                                Affected Area:
+                            </strong>
+
+                            <span id="farmerAffectedArea">
+                                --
+                            </span>
+                        </p>
+
+                        <p>
+                            <strong id="severityLabel">
+                                Severity:
+                            </strong>
+
+                            <span id="farmerSeverity">
+                                --
+                            </span>
+                        </p>
+
+                    </div>
+
+
+                    <!-- SIMPLE MESSAGE -->
+                    <div
+                        id="farmerMessageSection"
+                        class="farmer-section hidden"
+                    >
+
+                        <p id="farmerMessage"></p>
+
+                    </div>
+
+
+                    <!-- ABOUT DISEASE -->
+                    <div
+                        id="aboutDiseaseSection"
+                        class="farmer-section"
+                    >
+
+                        <h4 id="aboutDiseaseHeading">
+                            📖 About the Disease
+                        </h4>
+
+                        <p>
+                            <strong id="causeLabel">
+                                Cause:
+                            </strong>
+
+                            <span id="causeText">
+                                --
+                            </span>
+                        </p>
+
+                        <p>
+                            <strong id="symptomsLabel">
+                                Symptoms:
+                            </strong>
+
+                            <span id="symptomsText">
+                                --
+                            </span>
+                        </p>
+
+                        <p>
+                            <strong id="spreadLabel">
+                                Spread:
+                            </strong>
+
+                            <span id="spreadText">
+                                --
+                            </span>
+                        </p>
+
+                        <p>
+                            <strong id="conditionsLabel">
+                                Favorable Conditions:
+                            </strong>
+
+                            <span id="conditionsText">
+                                --
+                            </span>
+                        </p>
+
+                    </div>
+
+
+                    <!-- ACTIONS -->
+                    <div class="farmer-section">
+
+                        <h4 id="actionsHeading">
+                            🌱 What Should You Do?
+                        </h4>
+
+                        <ul id="actionsList">
+                        </ul>
+
+                    </div>
+
+
+                    <!-- LOW LEVEL MESSAGE -->
+                    <div
+                        id="lowMessageSection"
+                        class="farmer-section low-message-section hidden"
+                    >
+
+                        <p id="lowMessage"></p>
+
+                    </div>
+
+
+                    <!-- RECOMMENDED SPRAYS -->
+                    <div
+                        id="spraySection"
+                        class="farmer-section hidden"
+                    >
+
+                        <h4 id="sprayHeading">
+                            🧴 Recommended Spray
+                        </h4>
+
+                        <div id="sprayList">
+                        </div>
+
+                    </div>
+
+
+                    <!-- ADDITIONAL HIGH ACTION -->
+                    <div
+                        id="additionalActionSection"
+                        class="farmer-section hidden"
+                    >
+
+                        <h4 id="additionalActionHeading">
+                            ⚠️ Additional Action
+                        </h4>
+
+                        <p id="additionalActionText">
+                            --
+                        </p>
+
+                    </div>
+
+
+                    <!-- WARNING -->
+                    <div class="farmer-warning">
+
+                        <strong id="warningHeading">
+                            Important:
+                        </strong>
+
+                        <p id="farmerWarning">
+                            --
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer>
+        Smart Agriculture Disease Monitoring System
+    </footer>
+
+</div>
+
+
+<script src="app.js"></script>
+
+</body>
+</html>

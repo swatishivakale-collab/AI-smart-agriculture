@@ -1,0 +1,742 @@
+/* =========================
+   GLOBAL
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5f7f6;
+    color: #1f2937;
+}
+
+.dashboard {
+    max-width: 1200px;
+    margin: auto;
+    padding: 25px;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.header h1 {
+    font-size: 26px;
+    margin-bottom: 6px;
+}
+
+.header p {
+    color: #6b7280;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+#currentDate {
+    background: white;
+    padding: 10px 14px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.notification {
+    font-size: 22px;
+}
+
+
+/* =========================
+   SUMMARY CARDS
+========================= */
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.summary-card {
+    background: white;
+    border-radius: 14px;
+    padding: 18px;
+
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+}
+
+.summary-icon {
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 12px;
+    background: #edf7ee;
+
+    font-size: 24px;
+}
+
+.summary-card p {
+    color: #6b7280;
+    font-size: 13px;
+    margin-bottom: 4px;
+}
+
+.summary-card h3 {
+    font-size: 17px;
+}
+
+
+/* =========================
+   MAIN GRID
+========================= */
+
+.main-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.panel {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.07);
+}
+
+.panel-title {
+    padding-bottom: 14px;
+    border-bottom: 1px solid #e5e7eb;
+    margin-bottom: 18px;
+}
+
+.panel-title h2 {
+    font-size: 18px;
+}
+
+
+/* =========================
+   IMAGE
+========================= */
+
+.image-container {
+    width: 100%;
+    height: 360px;
+
+    border-radius: 12px;
+    overflow: hidden;
+
+    background: #eef2ef;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-bottom: 16px;
+}
+
+#leafPreview {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+    display: none;
+}
+
+#imagePlaceholder {
+    text-align: center;
+    color: #6b7280;
+    font-size: 45px;
+}
+
+#imagePlaceholder p {
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+.upload-button,
+.analyze-button {
+    width: 100%;
+    display: block;
+
+    border: none;
+    border-radius: 10px;
+
+    padding: 13px;
+
+    text-align: center;
+    font-size: 15px;
+
+    cursor: pointer;
+}
+
+.upload-button {
+    background: #eef6ef;
+    color: #267a3c;
+    margin-bottom: 10px;
+}
+
+.analyze-button {
+    background: #238636;
+    color: white;
+}
+
+.analyze-button:hover {
+    background: #1d722e;
+}
+
+.analyze-button:disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
+}
+
+
+/* =========================
+   LOADING
+========================= */
+
+.loading {
+    text-align: center;
+    margin-top: 12px;
+    color: #238636;
+    font-size: 14px;
+}
+
+
+/* =========================
+   WAITING RESULT
+========================= */
+
+.waiting-result {
+    min-height: 350px;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
+    color: #6b7280;
+}
+
+.waiting-result span {
+    font-size: 45px;
+    margin-bottom: 12px;
+}
+
+
+/* =========================
+   RESULTS
+========================= */
+
+.result-content {
+    width: 100%;
+}
+
+.result-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 14px 0;
+
+    border-bottom: 1px solid #eeeeee;
+}
+
+.result-row > span {
+    color: #6b7280;
+}
+
+.result-row strong {
+    text-align: right;
+}
+
+#disease {
+    color: #c0392b;
+}
+
+
+/* =========================
+   HEALTH SCORE
+========================= */
+
+.health-section {
+    width: 55%;
+}
+
+.health-section strong {
+    display: block;
+    margin-bottom: 7px;
+}
+
+.progress-background {
+    width: 100%;
+    height: 8px;
+
+    background: #e5e7eb;
+    border-radius: 20px;
+
+    overflow: hidden;
+}
+
+.progress-bar {
+    width: 0%;
+    height: 100%;
+
+    background: #2e9d47;
+
+    border-radius: 20px;
+
+    transition: width 0.5s ease;
+}
+
+
+/* =========================
+   SEVERITY
+========================= */
+
+.severity-badge {
+    padding: 6px 11px;
+    border-radius: 20px;
+
+    background: #eeeeee;
+
+    font-size: 13px;
+}
+
+.severity-low {
+    background: #e8f5e9;
+    color: #237a35;
+}
+
+.severity-moderate {
+    background: #fff3cd;
+    color: #946200;
+}
+
+.severity-high {
+    background: #fde8e8;
+    color: #b42318;
+}
+
+
+/* =========================
+   FARMER ALERT
+========================= */
+
+.farmer-alert {
+    margin-top: 22px;
+
+    background: #fffaf0;
+
+    border: 1px solid #f2d98b;
+    border-left: 5px solid #d89a00;
+
+    border-radius: 14px;
+
+    padding: 18px;
+}
+
+.farmer-alert-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 15px;
+
+    padding-bottom: 14px;
+    margin-bottom: 16px;
+
+    border-bottom: 1px solid #eadfbf;
+}
+
+.farmer-alert-header h3 {
+    color: #8a5b00;
+    font-size: 18px;
+}
+
+
+/* =========================
+   LANGUAGE TOGGLE
+========================= */
+
+.language-toggle {
+    display: flex;
+
+    background: #f1f1f1;
+
+    border-radius: 9px;
+
+    padding: 3px;
+}
+
+.language-button {
+    border: none;
+
+    background: transparent;
+
+    padding: 7px 11px;
+
+    border-radius: 7px;
+
+    cursor: pointer;
+
+    font-size: 13px;
+
+    color: #555;
+}
+
+.language-button.active {
+    background: white;
+
+    color: #237a35;
+
+    font-weight: bold;
+
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+}
+
+
+/* =========================
+   FARMER ALERT SUMMARY
+========================= */
+
+.farmer-alert-summary {
+    background: white;
+
+    border-radius: 11px;
+
+    padding: 15px;
+
+    margin-bottom: 15px;
+}
+
+.farmer-alert-summary h2 {
+    font-size: 20px;
+
+    margin-bottom: 12px;
+
+    color: #b42318;
+}
+
+.farmer-alert-summary p {
+    margin-top: 7px;
+}
+
+
+/* =========================
+   FARMER SECTIONS
+========================= */
+
+.farmer-section {
+    background: white;
+
+    padding: 15px;
+
+    border-radius: 11px;
+
+    margin-top: 13px;
+}
+
+.farmer-section h4 {
+    margin-bottom: 11px;
+
+    color: #245c32;
+
+    font-size: 16px;
+}
+
+.farmer-section p {
+    margin-bottom: 10px;
+
+    line-height: 1.55;
+}
+
+.farmer-section ul {
+    padding-left: 20px;
+}
+
+.farmer-section li {
+    margin-bottom: 9px;
+
+    line-height: 1.55;
+}
+
+
+/* =========================
+   LOW MESSAGE
+========================= */
+
+.low-message-section {
+    background: #eef8ef;
+
+    border-left: 4px solid #2e9d47;
+}
+
+.low-message-section p {
+    margin: 0;
+
+    color: #246b35;
+
+    font-weight: 500;
+}
+
+
+/* =========================
+   SPRAY CARDS
+========================= */
+
+#sprayList {
+    display: flex;
+    flex-direction: column;
+
+    gap: 12px;
+}
+
+.spray-card {
+    border: 1px solid #dce8dd;
+
+    background: #f9fcf9;
+
+    border-radius: 10px;
+
+    padding: 14px;
+}
+
+.spray-card h5 {
+    color: #246b35;
+
+    font-size: 15px;
+
+    margin-bottom: 7px;
+}
+
+.spray-card p {
+    margin-bottom: 7px;
+
+    line-height: 1.5;
+}
+
+.spray-ingredient {
+    color: #555;
+
+    font-size: 13px;
+}
+
+.spray-link {
+    display: inline-block;
+
+    margin-top: 5px;
+
+    padding: 9px 12px;
+
+    border-radius: 8px;
+
+    background: #238636;
+
+    color: white;
+
+    text-decoration: none;
+
+    font-size: 13px;
+}
+
+.spray-link:hover {
+    background: #1d722e;
+}
+
+
+/* =========================
+   ADDITIONAL ACTION
+========================= */
+
+#additionalActionSection {
+    background: #fff3e8;
+
+    border-left: 4px solid #e67e22;
+}
+
+
+/* =========================
+   FARMER WARNING
+========================= */
+
+.farmer-warning {
+    margin-top: 15px;
+
+    padding: 14px;
+
+    border-radius: 10px;
+
+    background: #f5f5f5;
+
+    color: #555;
+
+    font-size: 13px;
+}
+
+.farmer-warning p {
+    margin-top: 6px;
+
+    line-height: 1.55;
+}
+
+
+/* =========================
+   UTILITY
+========================= */
+
+.hidden {
+    display: none !important;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    text-align: center;
+
+    color: #777;
+
+    font-size: 13px;
+
+    padding: 30px 0 10px;
+}
+
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 900px) {
+
+    .summary-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .main-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* =========================
+   MOBILE PHONE
+========================= */
+
+@media (max-width: 600px) {
+
+    .dashboard {
+        padding: 14px;
+    }
+
+    .header {
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .header h1 {
+        font-size: 21px;
+    }
+
+    .header p {
+        font-size: 13px;
+    }
+
+    #currentDate {
+        display: none;
+    }
+
+    .summary-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .summary-card {
+        padding: 13px;
+    }
+
+    .summary-icon {
+        width: 38px;
+        height: 38px;
+
+        font-size: 19px;
+    }
+
+    .summary-card h3 {
+        font-size: 14px;
+    }
+
+    .image-container {
+        height: 280px;
+    }
+
+    .panel {
+        padding: 15px;
+    }
+
+    .result-row {
+        font-size: 14px;
+    }
+
+    .health-section {
+        width: 50%;
+    }
+
+    .farmer-alert {
+        padding: 13px;
+    }
+
+    .farmer-alert-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .language-toggle {
+        width: 100%;
+    }
+
+    .language-button {
+        flex: 1;
+    }
+
+    .farmer-alert-summary h2 {
+        font-size: 18px;
+    }
+
+    .farmer-section {
+        padding: 13px;
+    }
+}
